@@ -1,0 +1,7 @@
+fastapi==0.95.0
+uvicorn==0.21.1
+psycopg2==2.9.6
+asyncpg==0.27.0
+pydantic==1.10.2
+fastapi_users==10.4.2
+sqlalchemy
