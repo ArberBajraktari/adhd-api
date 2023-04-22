@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     API_NAME: str = "adhd-api"
     API_VERSION: str = "1.0.0"
     API_URL_PREFIX: str = "/api/v1"
-    API_SECRET_KEY: str = "changeme"
+    API_SECRET_KEY: str = "798312ae29178f8adcbadc031d4374d9"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     ACCESS_TOKEN_EXPIRE_SECONDS: int = 3600
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
