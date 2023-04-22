@@ -1,13 +1,8 @@
 from sqlalchemy import create_engine, Column, Integer, String, Date
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from pydantic import BaseModel
+from .db.session import Base, get_db
 
-
-
-engine = create_engine('postgresql://arber:password@localhost:54320/adhd_helper')
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
 
 class User(Base):
     __tablename__ = "users"
@@ -45,12 +40,6 @@ class UserUpdate(BaseModel):
     gender: str = None
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        return db
-    finally:
-        db.close()
 
 
 def create_user(db, user: UserCreate):
