@@ -11,10 +11,13 @@ class Task(Base):
 
 class TaskCreate(BaseModel):
     name: str
-    
+    description: str
+
 
 
 class TaskRead(BaseModel):
     name: str
+    description: str
+
     class Config:
         orm_mode = True
