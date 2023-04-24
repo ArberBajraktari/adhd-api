@@ -2,6 +2,7 @@ import uuid
 from enum import Enum
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from fastapi_users import schemas
+from sqlalchemy import Column, Boolean, String
 from ..db.base import Base
 
 
@@ -10,19 +11,22 @@ class GenderEnum(Enum):
     FEMALE = "female"
     OTHER = "other"
 
-class UserRead(schemas.BaseUser[uuid.UUID]):
-    # gender: GenderEnum
-    pass
-
 
 class UserCreate(schemas.BaseUserCreate):
-    # gender: GenderEnum
-    #shto edhe tjerat
+    # gender: str
     pass
 
 
 class UserUpdate(schemas.BaseUserUpdate):
+    # gender: str
     pass
+
+class UserRead(schemas.BaseUser[uuid.UUID]):
+    # gender: str
+    pass
+
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
     pass
+
+
