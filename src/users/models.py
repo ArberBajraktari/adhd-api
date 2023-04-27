@@ -13,8 +13,8 @@ class GenderEnum(Enum):
 
 
 class UserCreate(schemas.BaseUserCreate):
-    # gender: str
-    pass
+    class Config:
+        orm_mode = True
 
 
 class UserUpdate(schemas.BaseUserUpdate):
@@ -27,6 +27,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    pass
+    class Config:
+        orm_mode = True
 
 

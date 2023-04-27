@@ -10,14 +10,22 @@ from .db.session import create_db_and_tables
 app = FastAPI(
     title=settings.API_NAME
 )
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
-    allow_credentials=settings.ALLOW_CREDENTIALS,
-    allow_methods=settings.ALLOW_METHODS,
-    allow_headers=settings.ALLOW_HEADERS,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+#     allow_credentials=settings.ALLOW_CREDENTIALS,
+#     allow_methods=settings.ALLOW_METHODS,
+#     allow_headers=settings.ALLOW_HEADERS,
+# )
 
 app.include_router(api.router)
 
