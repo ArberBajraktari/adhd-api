@@ -10,7 +10,7 @@ from .db.session import create_db_and_tables
 app = FastAPI(
     title=settings.API_NAME
 )
-origins = ["*"]
+origins = ["http://localhost:3000"]
 
 app.add_middleware(
     CORSMiddleware,
