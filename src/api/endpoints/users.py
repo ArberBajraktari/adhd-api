@@ -1,8 +1,9 @@
-from fastapi import Depends
+from fastapi import Depends, Request
 #from ...db import create_db_and_tables
 from ...users.models import UserCreate, UserRead, UserUpdate, User
 from ...users.manager import auth_backend, current_active_user, fastapi_users
 from fastapi import APIRouter
+from ...crud.db import get_crud_db
 
 router = APIRouter()
 
@@ -30,6 +31,10 @@ router.include_router(
     tags=["users"],
 )
 
+@router.get("/checkUsername")
+async def get_tasks(username: str, db = Depends(get_crud_db)):
+    tasks = await db.checkUsername(username)
+    return tasks
 
 @router.get("/authenticated-route")
 async def authenticated_route(user: User = Depends(current_active_user)):

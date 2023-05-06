@@ -1,3 +1,4 @@
+from ..users.models import User
 from fastapi import Depends
 from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -24,6 +25,12 @@ class DBCRUD:
     async def get_by_id(self, model: Base, id: int):
         result = await self.session.execute(select(model).filter(model.id == id))
         return result.scalars().first()
+    
+    async def checkUsername(self, username: str):
+        result = await self.session.execute(select(User).filter(User.username == username))
+        user = result.scalars().first()
+        await self.session.close()
+        return {'status': user}
 
 
 async def get_crud_db(session: AsyncSession = Depends(get_async_session)):

@@ -3,8 +3,9 @@ from enum import Enum
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from fastapi_users import schemas
 from sqlalchemy import Column, String, Date
-from ..db.base import Base
+from typing import Optional
 from datetime import date
+from ..db.base import Base
 
 
 class GenderEnum(Enum):
@@ -24,9 +25,10 @@ class UserCreate(schemas.BaseUserCreate):
 
 
 class UserUpdate(schemas.BaseUserUpdate):
-    username: str
-    first_name: str
-    last_name: str
+    username: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
+    gender: Optional[str]
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
     id: uuid.UUID
@@ -34,6 +36,7 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
     first_name: str
     last_name: str
     gender: str
+    date_of_birth: date
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
@@ -44,5 +47,3 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     date_of_birth = Column(Date, nullable=False)
     class Config:
         orm_mode = True
-
-
