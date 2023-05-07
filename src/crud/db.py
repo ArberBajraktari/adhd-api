@@ -22,9 +22,12 @@ class DBCRUD:
         result = await self.session.execute(select(model_cls))
         return result.scalars().all()
     
-    async def get_by_id(self, model: Base, id: int):
+    async def get_task_by_id(self, model: Base, id: int):
         result = await self.session.execute(select(model).filter(model.id == id))
-        return result.scalars().first()
+        entity = result.scalars().first()
+        if entity is None:
+            return None
+        return entity
     
     async def checkUsername(self, username: str):
         result = await self.session.execute(select(User).filter(User.username == username))
