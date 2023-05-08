@@ -3,6 +3,7 @@ from enum import Enum
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from fastapi_users import schemas
 from sqlalchemy import Column, String, Date
+from sqlalchemy.orm import relationship
 from typing import Optional
 from datetime import date
 from ..db.base import Base
@@ -45,5 +46,6 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     last_name = Column(String(50), nullable=False)
     gender = Column(String(50), nullable=False)
     date_of_birth = Column(Date, nullable=False)
+    tasks = relationship("Task", back_populates="user") 
     class Config:
         orm_mode = True
