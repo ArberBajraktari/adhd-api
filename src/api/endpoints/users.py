@@ -1,4 +1,5 @@
-from fastapi import Depends, Request
+import requests
+from fastapi import Depends, Request, Response
 #from ...db import create_db_and_tables
 from ...users.models import UserCreate, UserRead, UserUpdate, User
 from ...users.manager import auth_backend, current_active_user, fastapi_users
