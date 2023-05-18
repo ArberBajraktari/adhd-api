@@ -9,6 +9,7 @@ from ..db.session import get_async_session
 from ..db.base import Base
 from ..task_item.models import TaskItem
 from ..tasks.models import Task
+from ..projects.models import Project
 from sqlalchemy import delete
 
 
@@ -24,6 +25,10 @@ class DBCRUD:
     
     async def get_all_tasks(self, model_cls: type[Base], id_uuid: any) -> List[Base]:
         result = await self.session.execute(select(model_cls).filter(model_cls.user_id == str(id_uuid)))
+        return result.scalars().all()
+    
+    async def get_all_projects(self, model_cls: type[Base], user_id: any) -> List[Base]:
+        result = await self.session.execute(select(model_cls).filter(model_cls.user_id == str(user_id)))
         return result.scalars().all()
     
     async def get_all_tasks_full(self, model_cls: type[Base], id_uuid: any) -> List[Base]:
@@ -64,6 +69,15 @@ class DBCRUD:
             await self.session.delete(task_obj)
             await self.session.commit()
             return True
+        
+    async def delete_project(self, project_id: int):
+        task = await self.session.execute(select(Project).where(Project.id == project_id))
+        task_obj = task.scalar_one_or_none()
+        if task_obj:
+            await self.session.delete(task_obj)
+            await self.session.commit()
+            return True
+    
         
     async def delete_item(self, item_id: int):
         task = await self.session.execute(select(TaskItem).where(TaskItem.id == item_id))
