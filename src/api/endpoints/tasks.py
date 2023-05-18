@@ -33,3 +33,10 @@ async def get_tasks(
 ):
     tasks = await db.get_all_tasks(Task, user.id)
     return tasks
+
+@router.get("/tasks_full")
+async def get_tasks_full(
+    request: Request, db=Depends(get_crud_db), user: User = Depends(current_active_user)
+):
+    tasks = await db.get_all_tasks_full(Task, user.id)
+    return tasks
