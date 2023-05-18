@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, HTTPException, Request, Depends
 from ...crud.db import get_crud_db
 from ...tasks.models import TaskCreate, Task, TaskRead
 from ...users.models import User
@@ -15,6 +15,15 @@ async def create_task(
     task = await db.create(task_model_obj)
     return task
 
+@router.delete("/tasks/{task_id}")
+async def delete_task(
+    task_id: int, db=Depends(get_crud_db), user: User = Depends(current_active_user)
+):
+    deleted_task = await db.delete_task(task_id)
+    if deleted_task:
+        return {"message": "Task deleted successfully"}
+    else:
+        raise HTTPException(status_code=404, detail="Task not found")
 
 @router.get("/tasks/{task_id}", response_model=TaskRead)
 async def get_task(

@@ -8,6 +8,8 @@ from sqlalchemy.future import select
 from ..db.session import get_async_session
 from ..db.base import Base
 from ..task_item.models import TaskItem
+from ..tasks.models import Task
+from sqlalchemy import delete
 
 
 class DBCRUD:
@@ -21,7 +23,6 @@ class DBCRUD:
         return model_obj
     
     async def get_all_tasks(self, model_cls: type[Base], id_uuid: any) -> List[Base]:
-        print(id_uuid)
         result = await self.session.execute(select(model_cls).filter(model_cls.user_id == str(id_uuid)))
         return result.scalars().all()
     
@@ -50,7 +51,14 @@ class DBCRUD:
         result = await self.session.execute(select(model_cls).filter(model_cls.task_id == task_id))
         return result.scalars().all()
     
-
+    async def delete_task(self, task_id: int):
+        print(task_id)
+        task = await self.session.execute(select(Task).where(Task.id == task_id))
+        task_obj = task.scalar_one_or_none()
+        if task_obj:
+            await self.session.delete(task_obj)
+            await self.session.commit()
+            return True
     
     async def checkUsername(self, username: str):
         result = await self.session.execute(select(User).filter(User.username == username))

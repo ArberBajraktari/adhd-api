@@ -14,9 +14,10 @@ class Task(Base):
     description = Column(Text)
     user_id = Column(CHAR(36), ForeignKey('user.id'))  # Assuming UUID is in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
     user = relationship(User, backref='tasks')
-    task_items = relationship("TaskItem", back_populates="task")
+    task_items = relationship("TaskItem", cascade="all, delete", back_populates="task")
     class Config:
         orm_mode = True
+        
 
 
 class TaskCreate(BaseModel):
