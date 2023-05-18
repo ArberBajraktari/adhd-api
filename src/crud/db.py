@@ -42,8 +42,14 @@ class DBCRUD:
         update_statement = (
             update(TaskItem)
             .where(TaskItem.id == task_item_id)
-            .values(done=model.done)
         )
+
+        if model.done is not None:
+            update_statement = update_statement.values(done=model.done)
+
+        if model.name is not None:
+            update_statement = update_statement.values(name=model.name)
+
         await self.session.execute(update_statement)
         await self.session.commit()
     
@@ -52,8 +58,15 @@ class DBCRUD:
         return result.scalars().all()
     
     async def delete_task(self, task_id: int):
-        print(task_id)
         task = await self.session.execute(select(Task).where(Task.id == task_id))
+        task_obj = task.scalar_one_or_none()
+        if task_obj:
+            await self.session.delete(task_obj)
+            await self.session.commit()
+            return True
+        
+    async def delete_item(self, item_id: int):
+        task = await self.session.execute(select(TaskItem).where(TaskItem.id == item_id))
         task_obj = task.scalar_one_or_none()
         if task_obj:
             await self.session.delete(task_obj)

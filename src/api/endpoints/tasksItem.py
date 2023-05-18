@@ -29,3 +29,14 @@ async def update_task_item(
     task_item_id: int, task_update: TaskItemUpdate, db=Depends(get_crud_db), user: User = Depends(current_active_user)
 ):
     await db.update_task_item(task_update, task_item_id)
+
+
+@router.delete("/tasks_item")
+async def delete_task_item(
+    item_id: int, db=Depends(get_crud_db), user: User = Depends(current_active_user)
+):
+    deleted_task = await db.delete_item(item_id)
+    if deleted_task:
+        return {"message": "Task deleted successfully"}
+    else:
+        raise HTTPException(status_code=404, detail="Task not found")
