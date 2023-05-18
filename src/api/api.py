@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from .endpoints import dashboard, users, tasks
+from .endpoints import dashboard, users, tasks, tasksItem
 from ..users.manager import current_active_user
 
 
@@ -10,3 +10,4 @@ router.include_router(
 )
 router.include_router(users.router)
 router.include_router(tasks.router, tags=["tasks"])
+router.include_router(tasksItem.router, tags=["tasks_item"])

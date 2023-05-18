@@ -29,6 +29,11 @@ class DBCRUD:
         if entity is None:
             return None
         return entity
+    
+    async def get_items_for_task(self, model_cls: type[Base], task_id: int) -> List[Base]:
+        result = await self.session.execute(select(model_cls).filter(model_cls.task_id == task_id))
+        return result.scalars().all()
+    
 
     
     async def checkUsername(self, username: str):
