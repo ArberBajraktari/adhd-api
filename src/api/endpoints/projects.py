@@ -17,7 +17,7 @@ async def create_project(
     return task
 
 @router.delete("/project")
-async def delete_task(
+async def delete_project(
     task_id: int, db=Depends(get_crud_db), user: User = Depends(current_active_user)
 ):
     deleted_task = await db.delete_project(task_id)
@@ -26,17 +26,6 @@ async def delete_task(
     else:
         raise HTTPException(status_code=404, detail="Task not found")
 
-@router.get("/projects/{task_id}", response_model=TaskRead)
-async def get_projects(
-    request: Request, task_id: int, db=Depends(get_crud_db), user: User = Depends(current_active_user)
-):
-    task = await db.get_task_by_id(Task, task_id)
-    if (task == None):
-        return {"name":"ID_NOT_VALID"}
-    else:
-        return task
-
-
 @router.get("/projects")
 async def get_projects(
     request: Request, db=Depends(get_crud_db), user: User = Depends(current_active_user)
@@ -44,9 +33,8 @@ async def get_projects(
     tasks = await db.get_all_projects(Project, user.id)
     return tasks
 
-@router.get("/tasks_full")
-async def get_tasks_full(
-    request: Request, db=Depends(get_crud_db), user: User = Depends(current_active_user)
+@router.put("/projects")
+async def update_projects(
+    project_id: int, project_update: ProjectCreate, db=Depends(get_crud_db), user: User = Depends(current_active_user)
 ):
-    tasks = await db.get_all_projects(Project, user.id)
-    return tasks
+    await db.update_project(project_update, project_id)

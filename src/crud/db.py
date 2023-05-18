@@ -57,6 +57,16 @@ class DBCRUD:
 
         await self.session.execute(update_statement)
         await self.session.commit()
+
+    async def update_project(self, model: Base, project_id: int) -> Project:
+        update_statement = (
+            update(Project)
+            .where(Project.id == project_id)
+        )
+        update_statement = update_statement.values(name=model.name)
+
+        await self.session.execute(update_statement)
+        await self.session.commit()
     
     async def get_items_for_task(self, model_cls: type[Base], task_id: int) -> List[Base]:
         result = await self.session.execute(select(model_cls).filter(model_cls.task_id == task_id))

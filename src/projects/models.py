@@ -22,8 +22,8 @@ class Project(Base):
 
 class ProjectCreate(BaseModel):
     name: str
-    description: str
-    user_id: str
+    description: Optional[str]
+    user_id: Optional[str]
     class Config:
         orm_mode = True
 
