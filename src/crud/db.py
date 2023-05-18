@@ -18,8 +18,9 @@ class DBCRUD:
         await self.session.refresh(model_obj)
         return model_obj
     
-    async def get_all_tasks(self, model_cls: type[Base]) -> List[Base]:
-        result = await self.session.execute(select(model_cls))
+    async def get_all_tasks(self, model_cls: type[Base], id_uuid: any) -> List[Base]:
+        print(id_uuid)
+        result = await self.session.execute(select(model_cls).filter(model_cls.user_id == str(id_uuid)))
         return result.scalars().all()
     
     async def get_task_by_id(self, model: Base, id: int):
@@ -28,6 +29,7 @@ class DBCRUD:
         if entity is None:
             return None
         return entity
+
     
     async def checkUsername(self, username: str):
         result = await self.session.execute(select(User).filter(User.username == username))

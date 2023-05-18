@@ -46,6 +46,5 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     last_name = Column(String(50), nullable=False)
     gender = Column(String(50), nullable=False)
     date_of_birth = Column(Date, nullable=False)
-    tasks = relationship("Task", back_populates="user") 
     class Config:
         orm_mode = True

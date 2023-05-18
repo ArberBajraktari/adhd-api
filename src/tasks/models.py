@@ -10,8 +10,8 @@ class Task(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50), unique=False, nullable=False)
     description = Column(Text)
-    user_id = Column(CHAR(36), ForeignKey("user.id"))
-    user = relationship("User", back_populates="tasks")
+    user_id = Column(CHAR(36), ForeignKey('user.id'))  # Assuming UUID is in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    user = relationship(User, backref='tasks')
 
     class Config:
         orm_mode = True
@@ -20,7 +20,7 @@ class Task(Base):
 class TaskCreate(BaseModel):
     name: str
     description: str
-    userId: str
+    user_id: str
     class Config:
         orm_mode = True
 
@@ -28,7 +28,7 @@ class TaskCreate(BaseModel):
 class TaskRead(BaseModel):
     name: str
     description: Optional[str]
-    userId: Optional[str]
+    user_id: Optional[str]
     class Config:
         orm_mode = True
 

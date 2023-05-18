@@ -31,5 +31,5 @@ async def get_task(
 async def get_tasks(
     request: Request, db=Depends(get_crud_db), user: User = Depends(current_active_user)
 ):
-    tasks = await db.get_all_tasks(Task)
+    tasks = await db.get_all_tasks(Task, user.id)
     return tasks
