@@ -13,6 +13,8 @@ class Task(Base):
     name = Column(String(50), unique=False, nullable=False)
     description = Column(Text)
     user_id = Column(CHAR(36), ForeignKey('user.id'))  # Assuming UUID is in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    project_id = Column(Integer, ForeignKey('projects.id'))  # Foreign key referencing the Project's id
+    project = relationship("Project", backref='tasks')  # Establishing the relationship
     user = relationship(User, backref='tasks')
     task_items = relationship("TaskItem", cascade="all, delete", back_populates="task")
     class Config:
@@ -24,6 +26,7 @@ class TaskCreate(BaseModel):
     name: str
     description: str
     user_id: str
+    project_id: int
     class Config:
         orm_mode = True
 
@@ -32,6 +35,7 @@ class TaskRead(BaseModel):
     name: str
     description: str
     user_id: str
+    project_id: int
     task_items: List
     class Config:
         orm_mode = True
