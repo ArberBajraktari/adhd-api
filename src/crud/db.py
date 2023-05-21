@@ -58,6 +58,24 @@ class DBCRUD:
         await self.session.execute(update_statement)
         await self.session.commit()
 
+    async def update_task(self, model: Base, task_id: int) -> Task:
+        update_statement = (
+            update(Task)
+            .where(Task.id == task_id)
+        )
+
+        if model.name is not None:
+            update_statement = update_statement.values(name=model.name)
+
+        if model.description is not None:
+            update_statement = update_statement.values(description=model.description)
+
+        if model.project_id is not None:
+            update_statement = update_statement.values(project_id=model.project_id)
+
+        await self.session.execute(update_statement)
+        await self.session.commit()
+
     async def update_project(self, model: Base, project_id: int) -> Project:
         update_statement = (
             update(Project)

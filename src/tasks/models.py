@@ -27,8 +27,6 @@ class TaskCreate(BaseModel):
     description: str
     user_id: str
     project_id: int
-    class Config:
-        orm_mode = True
 
 
 class TaskRead(BaseModel):
@@ -37,6 +35,10 @@ class TaskRead(BaseModel):
     user_id: str
     project_id: int
     task_items: List
-    class Config:
-        orm_mode = True
+
+
+class TaskUpdate(BaseModel):
+    name: Optional[str]
+    description: Optional[str]
+    project_id: Optional[int]
 

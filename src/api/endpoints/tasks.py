@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request, Depends
 from ...crud.db import get_crud_db
-from ...tasks.models import TaskCreate, Task, TaskRead
+from ...tasks.models import TaskCreate, Task, TaskRead, TaskUpdate
 from ...users.models import User
 from ...users.manager import current_active_user
 
@@ -49,3 +49,11 @@ async def get_tasks_full(
 ):
     tasks = await db.get_all_tasks_full(Task, user.id)
     return tasks
+
+
+
+@router.put("/tasks/{task_id}")
+async def update_task_item(
+    task_id: int, task_update: TaskUpdate, db=Depends(get_crud_db), user: User = Depends(current_active_user)
+):
+    await db.update_task(task_update, task_id)
